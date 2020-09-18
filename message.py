@@ -1,5 +1,5 @@
 """
-format:
+format of json:
     sender_name = sender
     mood = mood
     mood_message = description in discord
@@ -32,7 +32,7 @@ class Message():
             "embeds":[
                 {
                 "title": "Baby is feeling " + self.mood,
-                "description": self.mood,
+                "description": self.mood_message,
                 "author": {
                     "name": self.sender_name,
                     "url": "https://discordapp.com"
@@ -41,35 +41,12 @@ class Message():
             ]
         }
 
-
-    """
-    do i need??
-
+    #setters:
     def set_sendername(self, sender_name):
         self.sender_name = sender_name
-
-    def get_sendername(self):
-        return self.sender_name
 
     def set_mood(self, mood):
         self.mood = mood
 
-    def get_mood(self):
-        return self.mood
-    """
-
-
-
-
-"""
-#create msg obj with sender and mood
-msg = Message("Kevin", "sad")
-
-#creates payload_json based on obj variables
-msg.get_json()
-print(msg.payload_json)
-
-#setters to update obj variables
-msg.set_sendername("Albert")
-msg.set_mood("angry")
-"""
+    def set_mood_message(self, mood_msg):
+        self.mood_message = mood_msg

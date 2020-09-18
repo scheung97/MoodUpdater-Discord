@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import font, messagebox
 import os
+import message as msg
+import authentification as auth
 
 ########################################################################################################################################################################################################################################################################################################################
 # GUI class
@@ -13,31 +15,35 @@ def greeting_msg(): #future idea: implement a way of verifying the message was s
     '''
     messagebox.showinfo("Message Window", "Message sent! Tell them to check their Discord!")
 
-    
 def test_func(val):
     """
+    Creates payload_json based on mood value
     :Param: val: number associated with emotion
     :return None
     """
+
+    #is it better practice to create a blank msg first, then use setters  to update?
     try:
+        disc_msg = msg.Message("", "", "")
         if val == 1:
-            print("I'm baby")
-            greeting_msg()
+            disc_msg = msg.Message("name", "sad", "i'm baby")
         elif val == 2:
-            print("I'm so happy")
-            greeting_msg()
+            disc_msg = msg.Message("name", "sad", "i'm baby")
         elif val == 3:
-            print("I'm angy >:((")
-            greeting_msg()
+            disc_msg = msg.Message("name", "sad", "i'm baby")
         elif val == 4:
-            print("I love you <3")
-            greeting_msg()
+            disc_msg = msg.Message("name", "sad", "i'm baby")
         elif val == 5:
-            print("I'm needy")
-            greeting_msg()
+            disc_msg = msg.Message("name", "sad", "i'm baby")
         elif val == 6:
-            print("I don't feel so good mr. stark")
+            disc_msg = msg.Message("name", "sad", "i'm baby")
+
+        try:
+            disc_msg.create_json()
+            print(disc_msg.payload_json)
             greeting_msg()
+        except UnboundLocalError:
+            pass
     except ValueError:
         pass
 
@@ -70,12 +76,8 @@ class GUI():
         else:
             self.button_state = "active"
 
-        """
-        To Do here:
-            update lambda function to call message creation w/ variable messages
-        """
+        #TODO: update lambda function to call message creation w/ variable messages
 
-        #replace place() w/ grid() for easier formatting
         self.sadButton = tk.Button(self.ui_window, text = "I'm baby", state = "active", command = lambda: test_func(1))
         self.sadButton.place(x = 0, y = 0)
         self.happyButton = tk.Button(self.ui_window,text = "I'm so happy", state = self.button_state, command = lambda: test_func(2))
