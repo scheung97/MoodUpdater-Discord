@@ -1,11 +1,45 @@
 import tkinter as tk
-from tkinter import font
+from tkinter import font, messagebox
 import os
 
 ########################################################################################################################################################################################################################################################################################################################
 # GUI class
 ########################################################################################################################################################################################################################################################################################################################
+def greeting_msg(): #future idea: implement a way of verifying the message was sucessful
+    '''
+    Creates pop-up window stating that the message was sent
+    :Param: None
+    :Return: None
+    '''
+    messagebox.showinfo("Message Window", "Message sent! Tell them to check their Discord!")
 
+    
+def test_func(val):
+    """
+    :Param: val: number associated with emotion
+    :return None
+    """
+    try:
+        if val == 1:
+            print("I'm baby")
+            greeting_msg()
+        elif val == 2:
+            print("I'm so happy")
+            greeting_msg()
+        elif val == 3:
+            print("I'm angy >:((")
+            greeting_msg()
+        elif val == 4:
+            print("I love you <3")
+            greeting_msg()
+        elif val == 5:
+            print("I'm needy")
+            greeting_msg()
+        elif val == 6:
+            print("I don't feel so good mr. stark")
+            greeting_msg()
+    except ValueError:
+        pass
 
 class GUI():
     def __init__(self,master):
@@ -15,18 +49,18 @@ class GUI():
 
 
         #main_window
-        self.main_window = tk.Canvas(master, bg = "red", height = self.height, width = self.width)
+        self.main_window = tk.Canvas(master, height = self.height, width = self.width)
         self.main_window.grid(row = 0, column = 0, sticky = "n,s,e,w")
         #self.main_window.pack()
         #main_window.pack(fill = "both", expand = "true") #do i want the canvas to change as the window does??? probably not..
 
         #title at top = label for the rest of the widgets??
         self.titleFont = font.Font(family = "Verdana", size = 22, weight = "bold", slant = "italic", underline = 0) #would have liked more font optons
-        self.title = tk.Label(self.main_window, bg = "yellow", text = "Mood Ping!", font = self.titleFont)#.grid(row = 0, columnspan = self.width, sticky = "n,e,s,w")
+        self.title = tk.Label(self.main_window, text = "Mood Ping!", font = self.titleFont)#.grid(row = 0, columnspan = self.width, sticky = "n,e,s,w")
         self.title.grid(row = 0, columnspan = self.width, sticky = "n,e,s,w")
 
         #window for all the UI stuff
-        self.ui_window = tk.Frame(self.main_window, bg = "blue", width = self.width,  height = (self.height - 20))
+        self.ui_window = tk.Frame(self.main_window, bg = "#ffffff", width = self.width,  height = (self.height - 20))
         self.ui_window.grid(rowspan = self.height - 20, columnspan = self.width)
 
         #emotion widgets [implementing as buttons rn, will add more details later!]
@@ -57,22 +91,7 @@ class GUI():
         self.sickButton.place(x = 444, y = 300)
 
     #methods for retrieving info can be here
-    def test_func(val):
-        try:
-            if val == 1:
-                print("I'm baby")
-            elif val == 2:
-                print("I'm so happy")
-            elif val == 3:
-                print("I'm angy >:((")
-            elif val == 4:
-                print("I love you <3")
-            elif val == 5:
-                print("I'm needy")
-            elif val == 6:
-                print("I don't feel so good mr. stark")
-        except ValueError:
-            pass
+
 ########################################################################################################################################################################################################################################################################################################################
 # Runs the program
 ########################################################################################################################################################################################################################################################################################################################
