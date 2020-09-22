@@ -39,14 +39,4 @@ class Message():
                     }
                 }
             ]
-        }
-
-    #setters:
-    def set_sendername(self, sender_name):
-        self.sender_name = sender_name
-
-    def set_mood(self, mood):
-        self.mood = mood
-
-    def set_mood_message(self, mood_msg):
-        self.mood_message = mood_msg
+        }        
