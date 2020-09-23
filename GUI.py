@@ -21,19 +21,15 @@ def error_msg(Message):
     """
     messagebox.showerror("Error!", Message)
 
-
-
-
-
-"""
-TODO: enable buttons after name is inputed or find another way to not allow mood buttons to be hit when no name is inputed
-"""
 def set_sendername(name_input):
     #check to make sure entry field isn't set
     if name_input is not "":
         msg.sender_name = name_input
+        state = "name inputed"
     else:
         error_msg("Enter a name please!")
+
+
 
 def send_json(mood):
     """Creates payload_json and sends via POST request with Discord API
@@ -44,48 +40,59 @@ def send_json(mood):
     """
     acc_info = auth.authentification()
 
+    #lines 44-48 = hacky way to bypass "msg.sender_name not defined" issue
     try:
-        if mood == "sad":
-            disc_msg = msg.Message("sad", "I'm baby. I miss you :(")
-        elif mood == "happy":
-            disc_msg = msg.Message("happy", "I'm feeling great!")
-        elif mood == "angry":
-            disc_msg = msg.Message("angry", "I'm in a bad mood")
-        elif mood == "needy":
-            disc_msg = msg.Message("needy", "I'd like your love and attention please")
-        elif mood == "love":
-            disc_msg = msg.Message("in love", "I love you")
-        elif mood == "unwell":
-            disc_msg = msg.Message("bad", "I'm not feeling well")
-        elif mood == "afraid":
-            disc_msg = msg.Message("afraid", "I'm scared......")
-        elif mood == "nervous":
-            disc_msg = msg.Message("nervous", "I don't feel confident right now")
-        elif mood == "communicate":
-            disc_msg = msg.Message("ready", "We need to talk.")
-        try:
-            disc_msg.create_json()
-
-                #checks if there's any account information, and if so, tries to send the post request
-            if acc_info is not None:
-                try:
-                    requests.post(auth.webhook_url, headers = auth.headers, json = disc_msg.payload_json)
-                    greeting_msg()
-                    print("Sending message to Discord Channel via Webhook")
-                except:
-                    error_msg("Error! Issue with authentification")
-                    print("Error! Issue with authentification")
-                    pass
-            else:
-                error_msg("No API account information found")
-                print('Request failed!')
-
-        except:
-            error_msg("Error when creating json!")
+        if msg.sender_name is not None:
             pass
-    except ValueError:
-        error_msg("Not a valid mood!")
-        pass
+    except AttributeError:
+        msg.sender_name = ""
+
+    if msg.sender_name is not "":
+        try:
+            if mood == "sad":
+                disc_msg = msg.Message("sad", "I'm baby. I miss you :(")
+            elif mood == "happy":
+                disc_msg = msg.Message("happy", "I'm feeling great!")
+            elif mood == "angry":
+                disc_msg = msg.Message("angry", "I'm in a bad mood")
+            elif mood == "needy":
+                disc_msg = msg.Message("needy", "I'd like your love and attention please")
+            elif mood == "love":
+                disc_msg = msg.Message("in love", "I love you")
+            elif mood == "unwell":
+                disc_msg = msg.Message("bad", "I'm not feeling well")
+            elif mood == "afraid":
+                disc_msg = msg.Message("afraid", "I'm scared......")
+            elif mood == "nervous":
+                disc_msg = msg.Message("nervous", "I don't feel confident right now")
+            elif mood == "communicate":
+                disc_msg = msg.Message("ready", "We need to talk.")
+
+            try:
+                disc_msg.create_json()
+                #checks if there's any account information, and if so, tries to send the post request
+                if acc_info is not None:
+                    try:
+                        requests.post(auth.webhook_url, headers = auth.headers, json = disc_msg.payload_json)
+                        greeting_msg()
+                        print("Sending message to Discord Channel via Webhook")
+                    except:
+                        error_msg("Error! Issue with authentification")
+                        print("Error! Issue with authentification")
+                        pass
+                else:
+                    error_msg("No API account information found")
+                    print('Request failed!')
+
+            except:
+                error_msg("Error when creating json!")
+                pass
+        except ValueError:
+            error_msg("Not a valid mood!")
+            pass
+    else:
+        error_msg("Please enter a name first!")
+
 
 ########################################################################################################################################################################################################################################################################################################################
 # GUI class
@@ -93,6 +100,8 @@ def send_json(mood):
 class GUI():
     def __init__(self,master):
         self.height,self.width = 700, 550
+
+
         #self.dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -138,7 +147,7 @@ class GUI():
         #func ran once and didn't update on button push, doing research I found out that a lambda is needed for the "command" to get the current state
 
         #top row of buttons
-        self.sadButton = tk.Button(self.ui_window, text = "I'm baby", state = self.button_state, command = lambda: send_json("sad"))
+        self.sadButton = tk.Button(self.ui_window, text = "I'm baby", state = "active", command = lambda: send_json("sad"))
         self.sadButton.place(x = 0, y = 0)
         self.happyButton = tk.Button(self.ui_window,text = "I'm so happy", state = self.button_state, command = lambda: send_json("happy"))
         self.happyButton.place(x = 230  , y = 0)

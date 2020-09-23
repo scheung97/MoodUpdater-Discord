@@ -31,6 +31,3 @@ class Message():
                 }
             ]
         }
-
-    def get_sendername(self):
-        return self.sender_name
