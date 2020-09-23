@@ -21,6 +21,20 @@ def error_msg(Message):
     """
     messagebox.showerror("Error!", Message)
 
+
+
+
+
+"""
+TODO: enable buttons after name is inputed or find another way to not allow mood buttons to be hit when no name is inputed
+"""
+def set_sendername(name_input):
+    #check to make sure entry field isn't set
+    if name_input is not "":
+        msg.sender_name = name_input
+    else:
+        error_msg("Enter a name please!")
+
 def send_json(mood):
     """Creates payload_json and sends via POST request with Discord API
 
@@ -29,29 +43,30 @@ def send_json(mood):
     :return: None
     """
     acc_info = auth.authentification()
+
     try:
         if mood == "sad":
-            disc_msg = msg.Message("Agnes", "sad", "I'm baby. I miss you :(")
+            disc_msg = msg.Message("sad", "I'm baby. I miss you :(")
         elif mood == "happy":
-            disc_msg = msg.Message("Agnes", "happy", "I'm feeling great!")
+            disc_msg = msg.Message("happy", "I'm feeling great!")
         elif mood == "angry":
-            disc_msg = msg.Message("Agnes", "angry", "I'm in a bad mood")
+            disc_msg = msg.Message("angry", "I'm in a bad mood")
         elif mood == "needy":
-            disc_msg = msg.Message("Agnes", "needy", "I'd like your love and attention please")
+            disc_msg = msg.Message("needy", "I'd like your love and attention please")
         elif mood == "love":
-            disc_msg = msg.Message("Agnes", "in love", "I love you")
+            disc_msg = msg.Message("in love", "I love you")
         elif mood == "unwell":
-            disc_msg = msg.Message("Agnes", "bad", "I'm not feeling well")
+            disc_msg = msg.Message("bad", "I'm not feeling well")
         elif mood == "afraid":
-            disc_msg = msg.Message("Agnes", "afraid", "I'm scared......")
+            disc_msg = msg.Message("afraid", "I'm scared......")
         elif mood == "nervous":
-            disc_msg = msg.Message("Agnes", "nervous", "I don't feel confident right now")
+            disc_msg = msg.Message("nervous", "I don't feel confident right now")
         elif mood == "communicate":
-            disc_msg = msg.Message("Agnes", "ready", "We need to talk.")
+            disc_msg = msg.Message("ready", "We need to talk.")
         try:
             disc_msg.create_json()
 
-            #checks if there's any account information, and if so, tries to send the post request
+                #checks if there's any account information, and if so, tries to send the post request
             if acc_info is not None:
                 try:
                     requests.post(auth.webhook_url, headers = auth.headers, json = disc_msg.payload_json)
@@ -95,21 +110,18 @@ class GUI():
         self.inputs = tk.Frame(self.main_window, bg = "blue", width = self.width)
         self.inputs.grid(row = 1, columnspan = self.width, sticky = "n,e,s,w")
 
-        blank = tk.Label(self.inputs, bg = "blue", text = "                          ") #helps with spacing cause grid() justifies to left automatically
+        blank = tk.Label(self.inputs, bg = "blue", text = "                  ") #helps with spacing cause grid() justifies to left automatically
         blank.grid(row = 0, column = 0 )
         self.name_label_font = font.Font(family = "Verdana", size = 11)
         self.name_label = tk.Label(self.inputs, bg = "blue", text = "Your Name: ", font = self.name_label_font)
         self.name_label.grid(row = 0, column =1)
-        self.name_input = tk.Entry(self.inputs, font = self.name_label_font, width = 20)
+        self.name_var = tk.StringVar()
+        self.name_input = tk.Entry(self.inputs, font = self.name_label_font, textvariable = self.name_var, width = 20)
         self.name_input.grid(row = 0, column = 2, padx = 8, pady = 9, sticky = "n,e,w,s")
 
         #button to get user's name
-
-        """
-        TODO: use get button as input for name 
-        """
         self.name_button_font = font.Font(family = "Verdana", size = 9)
-        self.name_button = tk.Button(self.inputs, text = "Set Name", font = self.name_button_font, padx = 1, pady = 1, command = lambda: set_name(self.name_input.get()))
+        self.name_button = tk.Button(self.inputs, text = "Set Name", font = self.name_button_font, padx = 1, pady = 1, command = lambda: set_sendername(self.name_var.get()))
         self.name_button.grid(row = 0, column = 3)
 
         #window for all the UI stuff
@@ -126,7 +138,7 @@ class GUI():
         #func ran once and didn't update on button push, doing research I found out that a lambda is needed for the "command" to get the current state
 
         #top row of buttons
-        self.sadButton = tk.Button(self.ui_window, text = "I'm baby", state = "active", command = lambda: send_json("sad"))
+        self.sadButton = tk.Button(self.ui_window, text = "I'm baby", state = self.button_state, command = lambda: send_json("sad"))
         self.sadButton.place(x = 0, y = 0)
         self.happyButton = tk.Button(self.ui_window,text = "I'm so happy", state = self.button_state, command = lambda: send_json("happy"))
         self.happyButton.place(x = 230  , y = 0)
@@ -148,11 +160,6 @@ class GUI():
         self.nervousButton.place(x = 239, y = 654)
         self.communicationButton = tk.Button(self.ui_window, text = "I want to talk", state = self.button_state, command = lambda: send_json("communicate"))
         self.communicationButton.place(x = 471, y = 654)
-        """
-        if badnewsButton == 1:
-            print("good luck buddy")
-        set status == "fucked"
-        """
 ########################################################################################################################################################################################################################################################################################################################
 # Runs the program
 ########################################################################################################################################################################################################################################################################################################################

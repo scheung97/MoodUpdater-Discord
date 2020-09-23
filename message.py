@@ -1,42 +1,36 @@
-"""
-format of json:
-    sender_name = sender
-    mood = mood
-    mood_message = description in discord
-    payload_json = {
-        'content': sender_name + " sent you a message!",
-        "tts": 0,
-        "embeds":[
-            {
-            "title": "I'm feeling " + mood,
-            "description": mood_message,
-            "author": {
-                "name": sender_name,
-                "url": "https://discordapp.com" #update this for icons in message
-                }
-            }
-        ]
-    }
-"""
+import os
 
 class Message():
-    def __init__(self,sender_name,mood, mood_message):
+    """ Basic formatted JSON required for calling the Discord API
+
+    Attributes:
+        sender_name         Name of the person using the app (hardcoded for now)
+        mood                How the user is feeling emotionally
+        mood_message        Preset message associated with each mood
+    """
+
+    def __init__(self, mood, mood_message):
         self.sender_name = sender_name
         self.mood = mood
         self.mood_message = mood_message
 
     def create_json(self):
         self.payload_json = {
-            'content': self.sender_name + " sent you a message!",
+            "username": "DiscordMoodPing", #overrides old username b/c i wanted to change the name
+            "avatar_url" : "https://www.freepnglogos.com/uploads/heart-png/emoji-heart-33.png", #how do i keep this on the machine
+            "content": self.sender_name + " sent you a message!",
             "tts": 0,
             "embeds":[
                 {
-                "title": "Baby is feeling " + self.mood,
-                "description": self.mood_message,
-                "author": {
-                    "name": self.sender_name,
-                    "url": "https://discordapp.com"
-                    }
+                "title": "I'm feeling " + self.mood,
+                "description": self.mood_message #,
+                #"author": {
+                #    "name": self.sender_name,
+                #    "url": "https://discordapp.com/" #update this for icons in discord message
+                #    }
                 }
             ]
-        }        
+        }
+
+    def get_sendername(self):
+        return self.sender_name
