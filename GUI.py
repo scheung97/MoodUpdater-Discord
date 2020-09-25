@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import font, messagebox
-import os, requests
+import requests
 import message as msg
 import authentification as auth
 
 
-def greeting_msg():
+def success_msg():
     """
     Creates pop-up window stating that the message was sent
     :Param: None
@@ -74,15 +74,15 @@ def send_json(mood):
                 if acc_info is not None:
                     try:
                         requests.post(auth.webhook_url, headers = auth.headers, json = disc_msg.payload_json)
-                        greeting_msg()
-                        print("Sending message to Discord Channel via Webhook")
+                        success_msg()
+                        #print("Sending message to Discord Channel via Webhook")
                     except:
                         error_msg("Error! Issue with authentification")
-                        print("Error! Issue with authentification")
+                        #print("Error! Issue with authentification")
                         pass
                 else:
                     error_msg("No API account information found")
-                    print('Request failed!')
+                    #print('Request failed!')
 
             except:
                 error_msg("Error when creating json!")
@@ -100,10 +100,6 @@ def send_json(mood):
 class GUI():
     def __init__(self,master):
         self.height,self.width = 700, 550
-
-
-        #self.dir_path = os.path.dirname(os.path.realpath(__file__))
-
 
         #main_window
         self.main_window = tk.Canvas(master, bg = "blue", height = self.height, width = self.width)
@@ -137,12 +133,16 @@ class GUI():
         self.ui_window = tk.Frame(self.main_window, bg = "blue", width = self.width,  height = (self.height - 20))
         self.ui_window.grid(rowspan = self.height - 20, columnspan = self.width)
 
+
+        """
+        #self.devmode only useful for testing functionality of the buttons
+
         self.devmode = 0 #if 1, will disable all buttons except one; if 0, buttons will all be functional
         if self.devmode == 1:
             self.button_state = "disabled"
         else:
             self.button_state = "active"
-
+        """
         #emotion widgets [implementing as buttons rn, will add more details later!]
         #func ran once and didn't update on button push, doing research I found out that a lambda is needed for the "command" to get the current state
 
