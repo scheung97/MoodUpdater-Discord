@@ -1,5 +1,3 @@
-import os
-
 class Message():
     """ Basic formatted JSON required for calling the Discord API
 

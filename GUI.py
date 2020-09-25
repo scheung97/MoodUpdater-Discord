@@ -134,7 +134,6 @@ class GUI():
         self.ui_window.grid(rowspan = self.height - 20, columnspan = self.width)
 
 
-        """
         #self.devmode only useful for testing functionality of the buttons
 
         self.devmode = 0 #if 1, will disable all buttons except one; if 0, buttons will all be functional
@@ -142,7 +141,6 @@ class GUI():
             self.button_state = "disabled"
         else:
             self.button_state = "active"
-        """
         #emotion widgets [implementing as buttons rn, will add more details later!]
         #func ran once and didn't update on button push, doing research I found out that a lambda is needed for the "command" to get the current state
 
