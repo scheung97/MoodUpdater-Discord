@@ -21,3 +21,10 @@ To run:
     <ul> Click on your app --> click the "OAuth2" tab --> paste the Webhook URL you copied into the "Redirects"field --> specify the scope you want </ul> 
   3. Create a config.py file --> create webhook_url + auth_key variables (using respectively: the Redirect URL created in the OAuth2 tab and your client ID) 
   4. Run GUI.py  
+
+</br> 
+
+To run (option 2): </br> 
+  ***NOTE: This method of running will only send an output to a Discord channel I created! *** 
+  1. Download and run GUI.exe
+  
